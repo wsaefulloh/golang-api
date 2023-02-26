@@ -1,0 +1,12 @@
+GET http://localhost:9000/ HTTP/1.1
+
+###
+GET http://localhost:9000/product?product_id=1 HTTP/1.1
+
+###
+POST http://localhost:9000/ HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+product_name=Indomilk 100mL
+&product_price=4500
+&product_stock=100
