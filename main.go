@@ -50,19 +50,19 @@ func main() {
 
 	// Route handles & endpoints
 
-	// Get all movies
+	// Get all product
 	router.HandleFunc("/", GetProduct).Methods("GET")
 
-	// Get all movies
+	// Get product by id
 	router.HandleFunc("/product", GetProductID).Methods("GET")
 
-	// Create a movie
+	// Create a product
 	router.HandleFunc("/", CreateProduct).Methods("POST")
 
-	// Update a movie
+	// Update a product
 	router.HandleFunc("/", UpdateProduct).Methods("PUT")
 
-	// Delete a specific movie by the movieID
+	// Delete a specific product by the id
 	router.HandleFunc("/{product_id}", DeleteProduct).Methods("DELETE")
 
 	// serve the app
@@ -86,7 +86,7 @@ func checkErr(err error) {
 	}
 }
 
-// Get all movies
+// Get all product
 
 // response and request handlers
 func GetProduct(w http.ResponseWriter, r *http.Request) {
@@ -95,7 +95,7 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 
 	printMessage("Getting product...")
 
-	// Get all movies from movies table that don't have movieID = "1"
+	// Get all product from products table
 	rows, err := db.Query("SELECT * FROM products")
 
 	// check errors
@@ -105,7 +105,7 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 	var data []Product
 	var products Product
 
-	// Foreach movie
+	// Foreach product
 	for rows.Next() {
 
 		err := rows.Scan(&products.Id, &products.Product_name, &products.Product_price, &products.Product_stock, &products.Created_at, &products.Updated_at)
@@ -131,7 +131,7 @@ func GetProductID(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Getting product with ID ", productID)
 
-	// Get all movies from movies table that don't have movieID = "1"
+	// Get products with id
 	query := `SELECT * FROM public.products where id = $1`
 	rows, err := db.Query(query, productID)
 
@@ -142,7 +142,7 @@ func GetProductID(w http.ResponseWriter, r *http.Request) {
 	var data []Product
 	var products Product
 
-	// Foreach movie
+	// Foreach product
 	for rows.Next() {
 
 		err := rows.Scan(&products.Id, &products.Product_name, &products.Product_price, &products.Product_stock, &products.Created_at, &products.Updated_at)
@@ -195,8 +195,6 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 		db := setupDB()
 
 		printMessage("Inserting product into DB")
-
-		// fmt.Println("Inserting new movie with ID: " + movieID + " and name: " + movieName)
 
 		query := `INSERT INTO public.products(product_name, product_price, product_stock, created_at, updated_at) VALUES($1, $2, $3, $4, $5)`
 		_, err := db.Exec(query, products.Product_name, products.Product_price, products.Product_stock, products.Created_at, products.Updated_at)
@@ -256,7 +254,6 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 
 		fmt.Println("Update product with ID: ", products.Id)
 
-		// fmt.Println("Inserting new movie with ID: " + movieID + " and name: " + movieName)
 		query := `UPDATE public.products SET product_name = $1, product_price = $2, product_stock = $3, updated_at = $4  WHERE id = $5`
 		_, err := db.Exec(query, products.Product_name, products.Product_price, products.Product_stock, products.Updated_at, products.Id)
 
