@@ -9,14 +9,6 @@
 [![Golang](https://img.shields.io/badge/Golang-4.x-blue.svg?style=rounded-square)](https://golang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v.13.3-blue.svg?style=rounded-square)](https://www.postgresql.org/)
 
-## Feature
-- CRUD Product
-- CRUD Category
-- CRUD History
-- MVC Models
-- Search Product Name
-- Sort Product Name, Category, Date Update, and Price order by ASC or DESC
-
 ## Installation Steps
 
 1. Install the Golang and GO Environment
@@ -28,7 +20,7 @@ https://golang.org/doc/install
 2. Clone the repository
 
 ```bash
-git clone git@github.com:wsaefulloh/rest-api-golang.git (go get)
+git clone git@github.com:wsaefulloh/golang-api.git
 ```
 
 3. Run the app
@@ -45,4 +37,4 @@ View the website at: http://localhost:9000
 
 ## End Point
 
-You can see all the end point [here](https://documenter.getpostman.com/view/16508598/UVC9i6As)
+You can see all the end point [here](https://documenter.getpostman.com/view/16508598/2s93CPrD1V)
