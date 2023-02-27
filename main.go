@@ -16,10 +16,10 @@ import (
 
 // DB set up
 func setupDB() *sql.DB {
-	host := "127.0.0.1"
-	user := "user_pg"
-	password := "kode123"
-	database := "local_db_psql"
+	host := "your_host"
+	user := "your_username"
+	password := "your_password"
+	database := "your_database"
 	dbinfo := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, user, password, database)
 	db, err := sql.Open("postgres", dbinfo)
 
