@@ -11,14 +11,15 @@ import (
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
+	"github.com/rs/cors"
 )
 
 // DB set up
 func setupDB() *sql.DB {
-	host := "your_host"
-	user := "your_username"
-	password := "your_password"
-	database := "your_database"
+	host := "127.0.0.1"
+	user := "user_pg"
+	password := "kode123"
+	database := "local_db_psql"
 	dbinfo := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, user, password, database)
 	db, err := sql.Open("postgres", dbinfo)
 
@@ -67,7 +68,8 @@ func main() {
 
 	// serve the app
 	fmt.Println("Server at 9000")
-	err := http.ListenAndServe(":9000", router)
+	handler := cors.AllowAll().Handler(router)
+	err := http.ListenAndServe(":9000", handler)
 
 	if err != nil {
 		log.Fatal("Error API")
@@ -91,6 +93,7 @@ func checkErr(err error) {
 // response and request handlers
 func GetProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	db := setupDB()
 
 	printMessage("Getting product...")
@@ -100,6 +103,8 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 
 	// check errors
 	checkErr(err)
+
+	defer rows.Close()
 
 	// var response []JsonResponse
 	var data []Product
@@ -124,6 +129,7 @@ func GetProduct(w http.ResponseWriter, r *http.Request) {
 // response and request handlers
 func GetProductID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	db := setupDB()
 
 	vars := r.URL.Query()
@@ -137,6 +143,8 @@ func GetProductID(w http.ResponseWriter, r *http.Request) {
 
 	// check errors
 	checkErr(err)
+
+	defer rows.Close()
 
 	// var response []JsonResponse
 	var data []Product
@@ -161,6 +169,7 @@ func GetProductID(w http.ResponseWriter, r *http.Request) {
 // response and request handlers
 func CreateProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	response := JsonResponse{}
 
 	resultProductPrice, err := strconv.Atoi(r.FormValue("product_price"))
@@ -211,6 +220,7 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 // response and request handlers
 func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	response := JsonResponse{}
 
 	resultProductId, err := strconv.Atoi(r.FormValue("product_id"))
@@ -269,6 +279,7 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 // response and request handlers
 func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	params := mux.Vars(r)
 
 	productID := params["product_id"]
